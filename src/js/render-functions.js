@@ -2,9 +2,11 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
+import { getImagesByQuery } from "./pixabay-api";
 const BASE_URL = import.meta.env.BASE_URL;
 
 const gallery = document.querySelector('.gallery');
+
 
 
 //-----------FUNCTION ADDING CARDS WITH IMAGES TO GALLERY-------------
@@ -18,8 +20,8 @@ export function createGallery(images) {
                     downloads,
                     comments,
                     tags,
-                    largeImageURL = `'${BASE_URL}/img/image-not-found.jpg'`,
-                    webformatURL = `'${BASE_URL}/img/image-not-found.jpg'`  
+                    largeImageURL = '${BASE_URL}/img/image-not-found.jpg',
+                    webformatURL = '${BASE_URL}/img/image-not-found.jpg'  
                 }) =>
             
              `<li class="img-card">
@@ -59,9 +61,10 @@ export function createGallery(images) {
                     </li>`
         ).join('');
     
-    gallery.innerHTML = galleryItemsList;
+    gallery.insertAdjacentHTML("beforeend", galleryItemsList);
     
-     waitForImagesToLoad()
+    waitForImagesToLoad()
+
     const lightbox = new SimpleLightbox('.gallery a', {
         captionsData: 'alt',
         captionDelay: 250,
@@ -150,6 +153,7 @@ export function waitForImagesToLoad() {
 
     if (images.length === 0) {
         removeLoading(); //Якщо немає зображень, одразу ховаємо лоадер
+        removeNextPageloader()
         return;
     }
 
@@ -182,10 +186,13 @@ export function waitForImagesToLoad() {
 
     function checkIfAllImagesLoaded() {
         if (loadedCount === images.length) {
-                    removeLoading(); //Ховаємо лоадер тільки коли все намальовано
+            removeLoading(); //Ховаємо лоадер тільки коли все намальовано
+            
         }
     } 
 }
+
+
 
 
 //---------------------FUNCTION HANDLE LIKE YOUR FAVORITE IMAGES-----------------------------
@@ -219,4 +226,24 @@ export function clickOnlike() {
           
 }
 
+export function hideElement(element) {
+    element.classList.add('visually-hidden')
+}
+
+export function showElement(element) {
+    element.classList.remove('visually-hidden')
+}
+
+export function showNextPageloader() {
+    const pageLoader = document.querySelector('.page-loader');
+    pageLoader.classList.remove('visually-hidden');
+
+}
+
+export function removeNextPageloader() {
+    const pageLoader = document.querySelector('.page-loader');
+    pageLoader.classList.add('visually-hidden');
+    
+    
+}
 
