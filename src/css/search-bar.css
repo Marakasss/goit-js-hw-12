@@ -1,0 +1,80 @@
+.form {
+    display: flex;
+    margin: 0 auto;
+    margin-top: 12px;
+    border-radius: 24px;
+    position: relative;
+    transition: box-shadow 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
+}
+
+.form:hover {
+    box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
+    border-color: rgba(223, 225, 229, 0);
+}
+
+.search-button {
+    border: none;
+    display: flex;
+    align-items: center;
+    color: antiquewhite;
+    background-color: #1875FF;
+    padding: 6px 12px 6px 6px;
+    border-radius: 0 24px 24px 0;
+    font-family: "Markazi Text", serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 150%;
+    letter-spacing: 0.04em;
+    color: #fff;
+    transition:background-color 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
+}
+
+.search-button:hover {
+background-color: #0259db;
+border: 1px #0259db solid;
+}
+
+.search-button:hover .icon-btn {
+    transform: scale(1.2);
+}
+
+.search-button:active .icon-btn {
+    transform: scale(1);
+}
+
+.searchbar-icon {
+    position: absolute;
+    top: 50%;
+    left: 1%;
+    transform: translate(50%, -43%);
+}
+
+.icon-btn {
+    fill: #fff;
+    transition: transform 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
+}
+.icon-img {
+    fill: #808080;
+}
+.searchbar {
+    min-width: 260px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 32px;
+    font-weight: 400;
+    border: none;
+    border-radius:  24px 0 0 24px ;
+font-family: "Markazi Text", serif;
+    font-size: 18px;
+    line-height: 150%;
+    letter-spacing: 0.04em;
+    color: #808080;
+    outline: none;
+} 
+
+.logo {
+    margin-top: 12px;
+    margin-left: 12px;
+    fill: #1875FF;
+    
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Images search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <svg class="logo" width="94" height="24">
+      <use href="./public/img/sprite.svg#icon-logo"></use>
+    </svg>
+
+    <form class="form">
+      <label>
+        <input
+          class="searchbar"
+          type="text"
+          name="search-text"
+          placeholder="Search images..."
+        />
+        <span class="searchbar-icon"
+          ><svg class="icon-img" width="18" height="18">
+            <use href="./public/img/sprite.svg#icon-img"></use></svg
+        ></span>
+      </label>
+      <button class="search-button" name="search" type="submit">
+        <svg class="icon-btn" width="24" height="24">
+          <use href="./public/img/sprite.svg#icon-search"></use></svg
+        >Search
+      </button>
+    </form>
+    <span class="loader visually-hidden"></span>
+    <section class="content-section">
+      <ul class="gallery"></ul>
+    </section>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
