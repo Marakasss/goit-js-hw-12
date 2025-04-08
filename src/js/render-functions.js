@@ -18,8 +18,8 @@ export function createGallery(images) {
                     downloads,
                     comments,
                     tags,
-                    largeImageURL = '${BASE_URL}/img/image-not-found.jpg',
-                    webformatURL = '${BASE_URL}/img/image-not-found.jpg'  
+                    largeImageURL = `'${BASE_URL}/img/image-not-found.jpg'`,
+                    webformatURL = `'${BASE_URL}/img/image-not-found.jpg'`  
                 }) =>
             
              `<li class="img-card">
