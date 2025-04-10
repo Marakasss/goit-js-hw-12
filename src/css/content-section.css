@@ -243,9 +243,22 @@
     color: #0077cc;
 }
 
+.comment-username {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    color: #0077cc;
+}
+
 .comment-text {
     margin: 5px 0 0;
     color: #444;
     line-height: 1.4;
     font-size: 18px;
+}
+
+.thats-all {
+    font-family: "Markazi Text", serif;
+    color: #0259db;
+    font-size: 24px;
 }

@@ -56,6 +56,7 @@ function handleSubmit() {
             catch(error) {
                 if (error.message.includes('no images')) {
                     infoMessage(error.message);
+                    hideElement(loadMoreBtn)
                 } else {
                     errorMessage('Something went wrong. Please try again later.');
                     console.log(error.message);

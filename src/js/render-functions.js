@@ -122,8 +122,10 @@ export function infoMessage(message) {
  iziToast.info({
    message: message,
    position: window.innerWidth <= 768 ? 'bottomLeft' : 'topLeft',
-   transitionIn: 'fadeInDown',
-   messageSize: '16px',
+   transitionIn: 'fadeInLeft',
+   backgroundColor: 'rgb(0, 85, 212)',
+    messageSize: '16px',
+   messageColor: 'white',
 });
 }
 
@@ -146,9 +148,7 @@ export function removeLoading() {
     loader.style.display = 'none';  
 }
 
-//Функцію додав щоб вирішити проблему з завантаженням сторінки.
-//Так як у мене likes, views, comemnts, downloads реалізовані іконками
-//то іконки завантажувались швидше за зображення і виглядало це не добре.
+
 export function waitForImagesToLoad() {
     const gallery = document.querySelector('.gallery');
 
