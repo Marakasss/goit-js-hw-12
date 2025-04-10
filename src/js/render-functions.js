@@ -2,10 +2,15 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
-import { getImagesByQuery } from "./pixabay-api";
+import * as basicLightbox from 'basiclightbox'
+import 'basiclightbox/dist/basicLightbox.min.css';
+import { getCommentsByQuery } from "./pixabay-api";
+
+
 const BASE_URL = import.meta.env.BASE_URL;
 
 const gallery = document.querySelector('.gallery');
+
 
 
 
@@ -46,7 +51,7 @@ export function createGallery(images) {
                                 <p>${views}</p>
                             </li>
                             <li class="info">
-                                <svg class="icon-info" width="18" height="18">
+                                <svg class="icon-info comments" width="18" height="18">
                                     <use href="${BASE_URL}/img/sprite.svg#icon-dialog"></use>
                                 </svg>
                                 <p>${comments}</p>
@@ -54,7 +59,7 @@ export function createGallery(images) {
                             <li class="info">
                                 <svg class="icon-info" width="18" height="18">
                                     <use href="${BASE_URL}/img/sprite.svg#icon-gallery-download"></use>
-                                </svg>
+                                </svg>   
                                 <p>${downloads}</p>
                             </li>
                         </ul>
@@ -71,6 +76,9 @@ export function createGallery(images) {
     });
 
     lightbox.refresh();
+
+    
+   
    
 }
 
@@ -143,54 +151,57 @@ export function removeLoading() {
 //то іконки завантажувались швидше за зображення і виглядало це не добре.
 export function waitForImagesToLoad() {
     const gallery = document.querySelector('.gallery');
-    if (!gallery) {
-        removeLoading();
-        return;
-    }
 
-    const images = gallery.querySelectorAll('img');
-    let loadedCount = 0;
+    return new Promise(resolve => {
+        if (!gallery) {
+            removeLoading();
+            resolve(); // все одно завершити
+            return;
+        }
 
-    if (images.length === 0) {
-        removeLoading(); //Якщо немає зображень, одразу ховаємо лоадер
-        removeNextPageloader()
-        return;
-    }
+        const images = gallery.querySelectorAll('img');
+        let loadedCount = 0;
 
-    images.forEach(img => {
-        if (img.complete && img.naturalHeight !== 0) {
-            loadedCount++; //Якщо зображення вже готове
-        } else {
-            img.onload = () => {
+        if (images.length === 0) {
+            removeLoading();
+            removeNextPageloader();
+            resolve();
+            return;
+        }
+
+        const checkIfAllImagesLoaded = () => {
+            if (loadedCount === images.length) {
+                removeLoading();
+                removeNextPageloader();
+                resolve(); // 🔥 Успішно завершити, коли всі зображення оброблені
+            }
+        };
+
+        images.forEach(img => {
+            if (img.complete && img.naturalHeight !== 0) {
                 loadedCount++;
-                checkIfAllImagesLoaded();
-            };
-            img.onerror = () => {
-                if (!img.src.includes('image-not-found.jpg')) {
-                    img.src = '/goit-js-hw-11/img/image-not-found.jpg'; //ставимо заглушки якщо помилка
-                    img.alt = 'Image not found';
-                    img.onerror = null; 
-                }
-                
-                loadedCount++; //Якщо зображення не завантажилося, теж  враховуємо
-                checkIfAllImagesLoaded();
-            };
-        }
-    });
+            } else {
+                img.onload = () => {
+                    loadedCount++;
+                    checkIfAllImagesLoaded();
+                };
+                img.onerror = () => {
+                    if (!img.src.includes('image-not-found.jpg')) {
+                        img.src = '/goit-js-hw-11/img/image-not-found.jpg';
+                        img.alt = 'Image not found';
+                        img.onerror = null;
+                    }
+                    loadedCount++;
+                    checkIfAllImagesLoaded();
+                };
+            }
+        });
 
-    checkIfAllImagesLoaded();
-
-    if (loadedCount === images.length) {
+        // На випадок, якщо всі були вже завантажені
         checkIfAllImagesLoaded();
-    }
-
-    function checkIfAllImagesLoaded() {
-        if (loadedCount === images.length) {
-            removeLoading(); //Ховаємо лоадер тільки коли все намальовано
-            
-        }
-    } 
+    });
 }
+
 
 
 
@@ -247,3 +258,51 @@ export function removeNextPageloader() {
     
 }
 
+export function getComments() {
+     gallery.addEventListener('click', async event => {
+        const icon = event.target.closest('svg')
+         if (icon && icon.classList.contains('comments')) {
+             const numberValue = icon.nextElementSibling;
+             const number = Number(numberValue.textContent);
+
+             try {
+                 const comments = await getCommentsByQuery(number)
+                 console.log(comments);
+
+                 
+                const commentsList = comments
+                    .map(({ body, user: {fullName} }) =>
+                    `<li class="comment-item">
+                        <p class="comment-author">${fullName}</p>
+                        <p class="comment-text">${body}</p>
+                    </li>`).join('')
+                 
+                const instance = basicLightbox.create(`
+                    <div class="comments-modal">
+                        <h2 class="comments-title">Comments</h2>
+                        <ul class="comments-list">
+                        ${commentsList}
+                        </ul>
+                    </div>
+                `)
+                instance.show()
+                 
+             }
+             catch(error) {
+                 console.error(error.message);
+             }
+           
+        }
+    })
+}
+
+export function makeScroll() {
+    const card = document.querySelector('.img-card');
+    const cardDimentions = card.getBoundingClientRect();
+
+    window.scrollBy({
+                    top: cardDimentions.height * 2,
+                    left: 0,
+                    behavior: "smooth",
+                    });
+}

@@ -57,10 +57,29 @@
 }
 
 .load-btn {
-    display: flex;
+    border: none;
     margin: 0 auto;
     margin-top: 24px;
-}
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: antiquewhite;
+        background-color: #1875FF;
+        padding: 4px 12px 4px 12px;
+        border-radius: 6px;
+        font-family: "Markazi Text", serif;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 150%;
+        letter-spacing: 0.04em;
+        color: #fff;
+        transition: background-color 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
+    }
+
+        .load-btn:hover {
+            background-color: #0259db;
+        }
+
 
 .loader {
     width: 16px;
@@ -168,4 +187,65 @@
     40% {
         box-shadow: 0 2.5em 0 0;
     }
+}
+
+.thats-all {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.comments {
+    cursor: pointer;
+}
+
+
+/* Контейнер модалки */
+.comments-modal {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    font-family: "Markazi Text", serif;
+}
+
+/* Заголовок */
+.comments-title {
+    
+    margin-top: 0;
+    font-size: 36px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Список */
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Окремий коментар */
+.comment-item {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.comment-author {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    color: #0077cc;
+}
+
+.comment-text {
+    margin: 5px 0 0;
+    color: #444;
+    line-height: 1.4;
+    font-size: 18px;
 }
