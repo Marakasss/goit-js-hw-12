@@ -28,6 +28,7 @@ function handleSubmit() {
         event.preventDefault();
         clearGallery(); 
         hideElement(imgEndsDiscr)
+        hideElement(loadMoreBtn)
 
         let query = event.target['search-text'].value.trim();
         searchBar.dataset.query = query; //Saving query in input data(after we use it in load more btn)
