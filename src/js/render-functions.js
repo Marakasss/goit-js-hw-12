@@ -6,15 +6,13 @@ import * as basicLightbox from 'basiclightbox'
 import 'basiclightbox/dist/basicLightbox.min.css';
 import { getCommentsByQuery } from "./pixabay-api";
 
-
 const BASE_URL = import.meta.env.BASE_URL;
-
 const gallery = document.querySelector('.gallery');
 
 
-
-
 //-----------FUNCTION ADDING CARDS WITH IMAGES TO GALLERY-------------
+
+
 export function createGallery(images) {
     
     
@@ -69,6 +67,7 @@ export function createGallery(images) {
     gallery.insertAdjacentHTML("beforeend", galleryItemsList);
     
     waitForImagesToLoad()
+    
 
     const lightbox = new SimpleLightbox('.gallery a', {
         captionsData: 'alt',
@@ -76,11 +75,9 @@ export function createGallery(images) {
     });
 
     lightbox.refresh();
-
-    
-   
-   
 }
+
+//---------------------FUNCTION GALLERY CLEANER-----------------------------
 
 export function clearGallery() {
     gallery.innerHTML = ''
@@ -129,6 +126,7 @@ export function infoMessage(message) {
 });
 }
 
+
 //-----------------------------------LOADER FUNCTIONS----------------------------------------
 
 
@@ -149,13 +147,16 @@ export function removeLoading() {
 }
 
 
+//---------------------FUNCTION WAITING FOR ALL IMAGES DOWNLOADED-----------------------------
+
+
 export function waitForImagesToLoad() {
     const gallery = document.querySelector('.gallery');
 
     return new Promise(resolve => {
         if (!gallery) {
             removeLoading();
-            resolve(); // все одно завершити
+            resolve(); 
             return;
         }
 
@@ -173,7 +174,7 @@ export function waitForImagesToLoad() {
             if (loadedCount === images.length) {
                 removeLoading();
                 removeNextPageloader();
-                resolve(); // 🔥 Успішно завершити, коли всі зображення оброблені
+                resolve(); 
             }
         };
 
@@ -197,13 +198,9 @@ export function waitForImagesToLoad() {
             }
         });
 
-        // На випадок, якщо всі були вже завантажені
         checkIfAllImagesLoaded();
     });
 }
-
-
-
 
 
 //---------------------FUNCTION HANDLE LIKE YOUR FAVORITE IMAGES-----------------------------
@@ -237,6 +234,10 @@ export function clickOnlike() {
           
 }
 
+
+//---------------------FUNCTIONS SHOWING & HIDE ELEMENTS-----------------------------
+
+
 export function hideElement(element) {
     element.classList.add('visually-hidden')
 }
@@ -248,15 +249,16 @@ export function showElement(element) {
 export function showNextPageloader() {
     const pageLoader = document.querySelector('.page-loader');
     pageLoader.classList.remove('visually-hidden');
-
 }
 
 export function removeNextPageloader() {
     const pageLoader = document.querySelector('.page-loader');
-    pageLoader.classList.add('visually-hidden');
-    
-    
+    pageLoader.classList.add('visually-hidden');   
 }
+
+
+//-------FUNCTION GETTING FAKE COMMENTS & SHOW MODAL WITH COMMENTS AFTER CLICK----------
+
 
 export function getComments() {
      gallery.addEventListener('click', async event => {
@@ -266,10 +268,7 @@ export function getComments() {
              const number = Number(numberValue.textContent);
 
              try {
-                 const comments = await getCommentsByQuery(number)
-                 console.log(comments);
-
-                 
+                const comments = await getCommentsByQuery(number)
                 const commentsList = comments
                     .map(({ body, user: {fullName} }) =>
                     `<li class="comment-item">
@@ -291,10 +290,13 @@ export function getComments() {
              catch(error) {
                  console.error(error.message);
              }
-           
         }
     })
 }
+
+
+//---------------------FUNCTION SCROLL EFECT FOR LOADMORE BTN-----------------------------
+
 
 export function makeScroll() {
     const card = document.querySelector('.img-card');

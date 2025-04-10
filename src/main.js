@@ -14,50 +14,52 @@ const searchBar = document.querySelector('.form');
 const icon = document.querySelector('.icon-img');
 const loadMoreBtn = document.querySelector('.load-btn');
 const imgEndsDiscr = document.querySelector('.thats-all');
-changeIconColor(icon);
-handleSubmit();
-clickOnlike(); 
-getComments(); 
+changeIconColor(icon); // Changed input icon color if it has some value
+handleSubmit(); // Click on search btn
+clickOnlike(); // Functionality for liking pictures
+getComments(); // Functionality for getting modal with comments for picture
 
+
+// -----------------WHEN USER CLICK ON SEARCH BTN-------------------
 
 
 function handleSubmit() {
     searchBar.addEventListener('submit', async event => {
         event.preventDefault();
-        clearGallery();
+        clearGallery(); 
         hideElement(imgEndsDiscr)
 
         let query = event.target['search-text'].value.trim();
-        searchBar.dataset.query = query;
+        searchBar.dataset.query = query; //Saving query in input data(after we use it in load more btn)
         
-
         if (!query) {
             infoMessage('Enter some value');
             return;
         }
         
-        addLoading()
+        addLoading() // Adding main loader after click
 
             try {
                 const { hits, totalHits, page, perPage } = await getImagesByQuery(query)
-                console.log(hits);
-                loadMoreBtn.dataset.page = page;
+                loadMoreBtn.dataset.page = page; // Let loading button has data with value of current page
 
+                // If there are no pictures on search request
                 if (hits.length === 0) {
                     throw new Error(`Sorry, there are no images matching ${query}. Please try again!`);
-                }
+                } 
                 
                 createGallery(hits);
-                await waitForImagesToLoad();
-                pageCounter(query, totalHits, page, perPage)
+                await waitForImagesToLoad(); //Waiting for all images be loaded before hide loader
+                handlePaginationState(query, totalHits, page, perPage) //Show btn load more
                 
             }
             
             catch(error) {
                 if (error.message.includes('no images')) {
                     infoMessage(error.message);
-                    hideElement(loadMoreBtn)
-                } else {
+                    hideElement(loadMoreBtn);
+                }
+                else {
                     errorMessage('Something went wrong. Please try again later.');
                     console.log(error.message);
                 }
@@ -66,21 +68,25 @@ function handleSubmit() {
             }
         
             finally {
-                waitForImagesToLoad();
+                    waitForImagesToLoad(); 
             }
             
     })
 
 }
    
+
+// -----------------------BUTTON LOAD MORE BTN AFTER CLICK------------------------
+
+
 loadMoreBtn.addEventListener('click', loadMore)
 
  async function loadMore() {
-     let page = Number(loadMoreBtn.dataset.page) + 1;
+     let page = Number(loadMoreBtn.dataset.page) + 1; // Getting our pagenumber
      loadMoreBtn.dataset.page = page;
-     let query = searchBar.dataset.query;
+     let query = searchBar.dataset.query; // Getting our current search query
 
-     hideElement(loadMoreBtn);
+     hideElement(loadMoreBtn); 
      showNextPageloader()
 
      if (!query) return;
@@ -90,29 +96,28 @@ loadMoreBtn.addEventListener('click', loadMore)
         createGallery(hits);
         await waitForImagesToLoad();
         makeScroll()
-        pageCounter(query, totalHits, page, perPage);
+        handlePaginationState(query, totalHits, page, perPage);
     }
         
     catch (error) {
-            console.error('Load more error:', error);
-            
+            console.error('Load more error:', error);        
     }
 
     finally {
             removeNextPageloader()   
-    }
-     
-     
-     
-     
+    }   
 }
 
-export function pageCounter(query, totalHits, page, perPage) {
+
+// --------------------------PAGINATION BEHAVIOR----------------------------------
+
+
+export function handlePaginationState(query, totalHits, page, perPage) {
      
     const totalPages = Math.ceil(totalHits / perPage);
     
            if (page > totalPages) {
-                infoMessage(`We're sorry, but you've reached the end of search results "${query}".`);
+               infoMessage(`We're sorry, but you've reached the end of search results "${query}".`);
                hideElement(loadMoreBtn)
                showElement(imgEndsDiscr)
                return;

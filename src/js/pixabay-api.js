@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-
+//REQUEST TO PIXABU API FOR IMAGES
 export async function getImagesByQuery(query, page = 1) {
     const perPage = 15;
     const myApiKey = '49580099-ba49dcf3c416d0b66883e5025'; 
@@ -26,7 +26,7 @@ export async function getImagesByQuery(query, page = 1) {
 }
 
 
-
+//REQUEST TO DUMMYJSON FOR FAKE COMMENTS TO IMAGES
 export async function getCommentsByQuery(number) {
     if (number > 340) {
         number = 340;
