@@ -188,7 +188,7 @@ export function waitForImagesToLoad() {
                 };
                 img.onerror = () => {
                     if (!img.src.includes('image-not-found.jpg')) {
-                        img.src = '/goit-js-hw-11/img/image-not-found.jpg';
+                        img.src = `'${BASE_URL}/img/image-not-found.jpg'`;
                         img.alt = 'Image not found';
                         img.onerror = null;
                     }
