@@ -200,37 +200,32 @@
 }
 
 
-/* Контейнер модалки */
+
 .comments-modal {
-    background: #fff;
-    padding: 20px;
+    background: #ffffff;
+    padding: 20px 0 20px 20px;
     border-radius: 12px;
     width: 90%;
     max-width: 600px;
     max-height: 80vh;
-    overflow-y: auto;
+    overflow: hidden;
+
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     font-family: "Markazi Text", serif;
 }
 
-/* Заголовок */
-.comments-title {
-    
-    margin-top: 0;
-    font-size: 36px;
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
 
-/* Список */
 .comments-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    max-height: calc(80vh - 100px);
+
+    overflow-y: auto;
+
 }
 
-/* Окремий коментар */
+
 .comment-item {
     border-bottom: 1px solid #eee;
     padding: 10px 0;
@@ -255,6 +250,28 @@
     color: #444;
     line-height: 1.4;
     font-size: 18px;
+}
+
+.comments-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+.comments-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+    width: 8px;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+    background: #0077cc;
+    border-radius: 8px;
+    width: 8px;
+}
+
+
+.comments-list::-webkit-scrollbar-thumb:hover {
+    background: #005fa3;
 }
 
 .thats-all {
